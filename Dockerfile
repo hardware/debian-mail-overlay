@@ -101,5 +101,3 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
  && rm -rf /tmp/* /var/lib/apt/lists/* /var/cache/debconf/*-old
 
 COPY rootfs /
-RUN chmod +x /etc/s6.d/*/* /etc/s6.d/.s6-svscan/*
-CMD ["s6-svscan", "/etc/s6.d"]
