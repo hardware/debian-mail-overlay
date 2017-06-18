@@ -43,6 +43,7 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     liblua5.1-0 \
     libfann2 \
     libsqlite3-0 \
+    sqlite3 \
     wget \
     openssl \
     ca-certificates \
