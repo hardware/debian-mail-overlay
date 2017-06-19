@@ -19,7 +19,6 @@ LABEL description="s6 + rspamd image based on Debian" \
       s6_version="s6 v$S6_VER built from source"
 
 ENV LC_ALL=C
-ENV RSPAMD_PASSWORD=mailserver
 
 RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     && BUILD_DEPS=" \
