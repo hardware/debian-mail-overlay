@@ -3,14 +3,14 @@ FROM debian:stretch-slim
 ARG DEBIAN_FRONTEND=noninteractive
 ARG BUILD_CORES
 
-ARG SKALIBS_VER=2.5.1.1
-ARG EXECLINE_VER=2.3.0.1
-ARG S6_VER=2.6.0.0
+ARG SKALIBS_VER=2.6.0.0
+ARG EXECLINE_VER=2.3.0.2
+ARG S6_VER=2.6.1.0
 ARG RSPAMD_VER=1.6.3
 
-ARG SKALIBS_SHA256_HASH="aa387f11a01751b37fd32603fdf9328a979f74f97f0172def1b0ad73b7e8d51d"
-ARG EXECLINE_SHA256_HASH="2bf65aaaf808718952e05c2221b4e9472271e53ebd915c8d1d49a3e992583bf4"
-ARG S6_SHA256_HASH="146dd54086063c6ffb6f554c3e92b8b12a24165fdfab24839de811f79dcf9a40"
+ARG SKALIBS_SHA256_HASH="3572cb8c7d2ae9d16da5a0f3d23b48e013e0c957f1329d100f04dd5accb054c3"
+ARG EXECLINE_SHA256_HASH="c11650651a7230bd5687945a7698b2da3fe13c3c0eb15e296bb91769d4775f45"
+ARG S6_SHA256_HASH="f0de303791134302f2630b9fe76a936b064e1e3aa772c8ae1b891155a6ea2c79"
 ARG RSPAMD_SHA256_HASH="0d89fc4966c71b209a0f566458b1651dfa11b651b5e772cbe599177270e8c13f"
 
 LABEL description="s6 + rspamd image based on Debian" \
@@ -23,7 +23,10 @@ ENV LC_ALL=C
 RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     && BUILD_DEPS=" \
     cmake \
+    gcc \
+    make \
     ragel \
+    wget \
     pkg-config \
     liblua5.1-0-dev \
     libglib2.0-dev \
@@ -33,7 +36,7 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     libssl-dev \
     libmagic-dev \
     libfann-dev" \
- && apt-get update && apt-get install -y -q \
+ && apt-get update && apt-get install -y -q --no-install-recommends \
     ${BUILD_DEPS} \
     libevent-2.0-5 \
     libglib2.0-0 \
@@ -43,10 +46,10 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     libfann2 \
     libsqlite3-0 \
     sqlite3 \
-    wget \
     openssl \
     ca-certificates \
     gnupg \
+    dirmngr \
  # ### SKALIBS ###
  && cd /tmp \
  && SKALIBS_TARBALL="skalibs-${SKALIBS_VER}.tar.gz" \
