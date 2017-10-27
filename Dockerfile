@@ -3,15 +3,15 @@ FROM debian:stretch-slim
 ARG DEBIAN_FRONTEND=noninteractive
 ARG BUILD_CORES
 
-ARG SKALIBS_VER=2.6.0.0
-ARG EXECLINE_VER=2.3.0.2
-ARG S6_VER=2.6.1.0
-ARG RSPAMD_VER=1.6.4
+ARG SKALIBS_VER=2.6.0.2
+ARG EXECLINE_VER=2.3.0.3
+ARG S6_VER=2.6.1.1
+ARG RSPAMD_VER=1.6.5
 
-ARG SKALIBS_SHA256_HASH="3572cb8c7d2ae9d16da5a0f3d23b48e013e0c957f1329d100f04dd5accb054c3"
-ARG EXECLINE_SHA256_HASH="c11650651a7230bd5687945a7698b2da3fe13c3c0eb15e296bb91769d4775f45"
-ARG S6_SHA256_HASH="f0de303791134302f2630b9fe76a936b064e1e3aa772c8ae1b891155a6ea2c79"
-ARG RSPAMD_SHA256_HASH="70560ffe308e25086ff9c56d8ba40e759652693b4e94fcc10f808620928d510f"
+ARG SKALIBS_SHA256_HASH="349b02d925c795e81c9b2f59f5f281f34c0a5477e22b09cfc7c566194923492e"
+ARG EXECLINE_SHA256_HASH="1a698425740a410a38be770f98b8faf94c633e29a74ba1d25adddbb294e979f5"
+ARG S6_SHA256_HASH="0172b7293d4d5607ca3ca77382fee9b87c10bd58680720b29625cf35afc75c5c"
+ARG RSPAMD_SHA256_HASH="6007aba3a908c02ef71f95a92c9c1c2fe46d3f3c39186a68f6c1997c88decc7a"
 
 LABEL description="s6 + rspamd image based on Debian" \
       maintainer="Hardware <contact@meshup.net>" \
@@ -50,7 +50,6 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     ca-certificates \
     gnupg \
     dirmngr \
- # ### SKALIBS ###
  && cd /tmp \
  && SKALIBS_TARBALL="skalibs-${SKALIBS_VER}.tar.gz" \
  && wget -q https://skarnet.org/software/skalibs/${SKALIBS_TARBALL} \
@@ -59,7 +58,6 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
  && tar xzf ${SKALIBS_TARBALL} && cd skalibs-${SKALIBS_VER} \
  && ./configure --prefix=/usr --datadir=/etc \
  && make && make install \
- # ### EXECLINE ###
  && cd /tmp \
  && EXECLINE_TARBALL="execline-${EXECLINE_VER}.tar.gz" \
  && wget -q https://skarnet.org/software/execline/${EXECLINE_TARBALL} \
@@ -68,7 +66,6 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
  && tar xzf ${EXECLINE_TARBALL} && cd execline-${EXECLINE_VER} \
  && ./configure --prefix=/usr \
  && make && make install \
- # ### S6 ###
  && cd /tmp \
  && S6_TARBALL="s6-${S6_VER}.tar.gz" \
  && wget -q https://skarnet.org/software/s6/${S6_TARBALL} \
@@ -77,7 +74,6 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
  && tar xzf ${S6_TARBALL} && cd s6-${S6_VER} \
  && ./configure --prefix=/usr --bindir=/usr/bin --sbindir=/usr/sbin \
  && make && make install \
- # ### RSPAMD ###
  && cd /tmp \
  && RSPAMD_TARBALL="${RSPAMD_VER}.tar.gz" \
  && wget -q https://github.com/vstakhov/rspamd/archive/${RSPAMD_TARBALL} \
