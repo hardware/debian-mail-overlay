@@ -7,11 +7,13 @@ ARG SKALIBS_VER=2.6.0.2
 ARG EXECLINE_VER=2.3.0.3
 ARG S6_VER=2.6.1.1
 ARG RSPAMD_VER=1.6.5
+ARG GUCCI_VER=0.0.4
 
 ARG SKALIBS_SHA256_HASH="349b02d925c795e81c9b2f59f5f281f34c0a5477e22b09cfc7c566194923492e"
 ARG EXECLINE_SHA256_HASH="1a698425740a410a38be770f98b8faf94c633e29a74ba1d25adddbb294e979f5"
 ARG S6_SHA256_HASH="0172b7293d4d5607ca3ca77382fee9b87c10bd58680720b29625cf35afc75c5c"
 ARG RSPAMD_SHA256_HASH="6007aba3a908c02ef71f95a92c9c1c2fe46d3f3c39186a68f6c1997c88decc7a"
+ARG GUCCI_SHA256_HASH="5b2c7cc7589ec760e30881e9bd4d806be0b8ecb71235ced5c190b5aaf88c46ae"
 
 LABEL description="s6 + rspamd image based on Debian" \
       maintainer="Hardware <contact@meshup.net>" \
@@ -93,6 +95,13 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     . \
  && make -j${NB_CORES} \
  && make install \
+ && cd /tmp \
+ && GUCCI_BINARY="gucci-v${GUCCI_VER}-linux-amd64" \
+ && wget -q https://github.com/noqcks/gucci/releases/download/v${GUCCI_VER}/${GUCCI_BINARY} \
+ && CHECKSUM=$(sha256sum ${GUCCI_BINARY} | awk '{print $1}') \
+ && if [ "${CHECKSUM}" != "${GUCCI_SHA256_HASH}" ]; then echo "${GUCCI_BINARY} : bad checksum" && exit 1; fi \
+ && chmod +x ${GUCCI_BINARY} \
+ && mv ${GUCCI_BINARY} /usr/local/bin/gucci \
  && apt-get purge -y ${BUILD_DEPS} \
  && apt-get autoremove -y \
  && apt-get clean \
