@@ -6,13 +6,13 @@ ARG BUILD_CORES
 ARG SKALIBS_VER=2.6.3.1
 ARG EXECLINE_VER=2.3.0.4
 ARG S6_VER=2.7.0.0
-ARG RSPAMD_VER=1.6.6
+ARG RSPAMD_VER=1.7.0
 ARG GUCCI_VER=0.0.4
 
 ARG SKALIBS_SHA256_HASH="8508ca00d4e2355e9ec0ec7f4808e98b349999d6732d2f123ac53b4df5260c81"
 ARG EXECLINE_SHA256_HASH="e4bb8fc8f20cca96f4bac9f0f74ebce5081b4b687bb11c79c843faf12507a64b"
 ARG S6_SHA256_HASH="6617cbf82c73273c67c6102a1a5c48449ef65ffbe8d0db6a587b7f0078dc6e13"
-ARG RSPAMD_SHA256_HASH="3ae2064ae379adb575bb4f1edd05830a6643d362f22779947fccb18a51f8bfe2"
+ARG RSPAMD_SHA256_HASH="cf8bd3cbe3e6e146dbb9c5d6c0098ccfe69dda5a672b9cf6af629e9fbbdba039"
 ARG GUCCI_SHA256_HASH="5b2c7cc7589ec760e30881e9bd4d806be0b8ecb71235ced5c190b5aaf88c46ae"
 
 LABEL description="s6 + rspamd image based on Debian" \
@@ -31,13 +31,13 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     wget \
     pkg-config \
     liblua5.1-0-dev \
+    libluajit-5.1-dev \
     libglib2.0-dev \
     libevent-dev \
     libsqlite3-dev \
     libicu-dev \
     libssl-dev \
-    libmagic-dev \
-    libfann-dev" \
+    libmagic-dev" \
  && apt-get update && apt-get install -y -q --no-install-recommends \
     ${BUILD_DEPS} \
     libevent-2.0-5 \
@@ -45,7 +45,7 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     libssl1.1 \
     libmagic1 \
     liblua5.1-0 \
-    libfann2 \
+    libluajit-5.1-2 \
     libsqlite3-0 \
     sqlite3 \
     openssl \
@@ -92,6 +92,9 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     -DLIBDIR=/usr/lib/rspamd \
     -DNO_SHARED=ON \
     -DWANT_SYSTEMD_UNITS=OFF \
+    -DENABLE_TORCH=ON \
+    -DENABLE_HIREDIS=ON \
+    -DINSTALL_WEBUI=ON \
     . \
  && make -j${NB_CORES} \
  && make install \
