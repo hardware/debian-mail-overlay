@@ -6,13 +6,13 @@ ARG BUILD_CORES
 ARG SKALIBS_VER=2.6.4.0
 ARG EXECLINE_VER=2.5.0.0
 ARG S6_VER=2.7.1.1
-ARG RSPAMD_VER=1.7.6
+ARG RSPAMD_VER=1.7.7
 ARG GUCCI_VER=0.0.4
 
 ARG SKALIBS_SHA256_HASH="30ac73f1e8da6387fcfa19cfe1e326a143b4d811aaf532988b280daefa56dcc7"
 ARG EXECLINE_SHA256_HASH="f6993094766652041c21fde9c07ef53a3cd4b93a64123d9578fb4997a2cefca1"
 ARG S6_SHA256_HASH="f37547f2890eb50bcb4cd46ffa38bad5ec9e6fd6bc7b73a8df0bdf0cf11f01a9"
-ARG RSPAMD_SHA256_HASH="297fb8564de212b27e1da683a839cd833c26fc802de66bc676ddf1b92df6d88e"
+ARG RSPAMD_SHA256_HASH="8d494d2374cf3de786d452670118e4b5c764db3811920c9dc770880ad025787a"
 ARG GUCCI_SHA256_HASH="5b2c7cc7589ec760e30881e9bd4d806be0b8ecb71235ced5c190b5aaf88c46ae"
 
 LABEL description="s6 + rspamd image based on Debian" \
@@ -37,6 +37,8 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     libsqlite3-dev \
     libicu-dev \
     libssl-dev \
+    libhyperscan-dev \
+    libjemalloc-dev \
     libmagic-dev" \
  && apt-get update && apt-get install -y -q --no-install-recommends \
     ${BUILD_DEPS} \
@@ -47,6 +49,8 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     liblua5.1-0 \
     libluajit-5.1-2 \
     libsqlite3-0 \
+    libhyperscan4 \
+    libjemalloc1 \
     sqlite3 \
     openssl \
     ca-certificates \
@@ -95,6 +99,10 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     -DENABLE_TORCH=ON \
     -DENABLE_HIREDIS=ON \
     -DINSTALL_WEBUI=ON \
+    -DENABLE_OPTIMIZATION=ON \
+    -DENABLE_HYPERSCAN=ON \
+    -DENABLE_JEMALLOC=ON \
+    -DJEMALLOC_ROOT_DIR=/jemalloc \
     . \
  && make -j${NB_CORES} \
  && make install \
