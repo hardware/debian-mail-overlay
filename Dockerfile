@@ -38,6 +38,7 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     libicu-dev \
     libssl-dev \
     libhyperscan-dev \
+    libpcre2-dev \
     libjemalloc-dev \
     libmagic-dev" \
  && apt-get update && apt-get install -y -q --no-install-recommends \
@@ -50,6 +51,7 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     libluajit-5.1-2 \
     libsqlite3-0 \
     libhyperscan4 \
+    libpcre2-8-0 \
     libjemalloc1 \
     sqlite3 \
     openssl \
@@ -101,6 +103,7 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     -DINSTALL_WEBUI=ON \
     -DENABLE_OPTIMIZATION=ON \
     -DENABLE_HYPERSCAN=ON \
+    -DENABLE_PCRE2=ON \
     -DENABLE_JEMALLOC=ON \
     -DJEMALLOC_ROOT_DIR=/jemalloc \
     . \
