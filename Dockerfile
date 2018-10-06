@@ -3,17 +3,17 @@ FROM debian:stretch-slim
 ARG DEBIAN_FRONTEND=noninteractive
 ARG BUILD_CORES
 
-ARG SKALIBS_VER=2.6.4.0
-ARG EXECLINE_VER=2.5.0.0
-ARG S6_VER=2.7.1.1
+ARG SKALIBS_VER=2.7.0.0
+ARG EXECLINE_VER=2.5.0.1
+ARG S6_VER=2.7.2.1
 ARG RSPAMD_VER=1.8.0
-ARG GUCCI_VER=0.0.4
+ARG GUCCI_VER=0.1.0
 
-ARG SKALIBS_SHA256_HASH="30ac73f1e8da6387fcfa19cfe1e326a143b4d811aaf532988b280daefa56dcc7"
-ARG EXECLINE_SHA256_HASH="f6993094766652041c21fde9c07ef53a3cd4b93a64123d9578fb4997a2cefca1"
-ARG S6_SHA256_HASH="f37547f2890eb50bcb4cd46ffa38bad5ec9e6fd6bc7b73a8df0bdf0cf11f01a9"
+ARG SKALIBS_SHA256_HASH="96494d76669d2f8622511d5d616b6367801a42683c0bb11a8855114e5ccbd756"
+ARG EXECLINE_SHA256_HASH="8d07d14e9e9abb1301e08be271313c4ffa5ddf7248fd262dda19588e78e31049"
+ARG S6_SHA256_HASH="cbac1c5eba1052038cd1508badbb9e88c28e8910cf37a0ab4ab7122a3227d46f"
 ARG RSPAMD_SHA256_HASH="3d83fbe240c61cf457bbbd74b9fee68c74ed5edd3480e6da358b0db7d4f732be"
-ARG GUCCI_SHA256_HASH="5b2c7cc7589ec760e30881e9bd4d806be0b8ecb71235ced5c190b5aaf88c46ae"
+ARG GUCCI_SHA256_HASH="44199d8edf88442324951cafeaaea047f524deb8d887a0174cacc3aaff139740"
 
 LABEL description="s6 + rspamd image based on Debian" \
       maintainer="Hardware <contact@meshup.net>" \
@@ -108,7 +108,7 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
  && make install \
  && cd /tmp \
  && GUCCI_BINARY="gucci-v${GUCCI_VER}-linux-amd64" \
- && wget -q https://github.com/noqcks/gucci/releases/download/v${GUCCI_VER}/${GUCCI_BINARY} \
+ && wget -q https://github.com/noqcks/gucci/releases/download/${GUCCI_VER}/${GUCCI_BINARY} \
  && CHECKSUM=$(sha256sum ${GUCCI_BINARY} | awk '{print $1}') \
  && if [ "${CHECKSUM}" != "${GUCCI_SHA256_HASH}" ]; then echo "${GUCCI_BINARY} : bad checksum" && exit 1; fi \
  && chmod +x ${GUCCI_BINARY} \

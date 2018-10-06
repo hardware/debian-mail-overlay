@@ -4,10 +4,10 @@ This overlay base image contains Debian Stretch slim (remove some extra files th
 
 Software built from source :
 
-* Skalibs 2.6.4.0 : https://skarnet.org/software/skalibs/
-* Execline 2.5.0.0 : https://skarnet.org/software/execline/
-* s6 2.7.1.1 : https://skarnet.org/software/s6/
+* Skalibs 2.7.0.0 : https://skarnet.org/software/skalibs/
+* Execline 2.5.0.1 : https://skarnet.org/software/execline/
+* s6 2.7.2.1 : https://skarnet.org/software/s6/
 * Rspamd 1.8.0 : https://rspamd.com/
-* Gucci 0.0.4 : https://github.com/noqcks/gucci/
+* Gucci 0.1.0 : https://github.com/noqcks/gucci/
 
 Please see the [main repository](https://github.com/hardware/mailserver) for instructions.
