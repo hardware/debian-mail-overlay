@@ -6,7 +6,7 @@ Software built from source :
 
 * Skalibs 2.7.0.0 : https://skarnet.org/software/skalibs/
 * Execline 2.5.0.1 : https://skarnet.org/software/execline/
-* s6 2.7.2.1 : https://skarnet.org/software/s6/
+* s6 2.7.2.2 : https://skarnet.org/software/s6/
 * Rspamd 1.8.3 : https://rspamd.com/
 * Gucci 0.1.0 : https://github.com/noqcks/gucci/
 
