@@ -1,4 +1,4 @@
-FROM debian:stretch-slim
+FROM debian:buster-slim
 
 ARG DEBIAN_FRONTEND=noninteractive
 ARG BUILD_CORES
@@ -42,15 +42,15 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     libmagic-dev" \
  && apt-get update && apt-get install -y -q --no-install-recommends \
     ${BUILD_DEPS} \
-    libevent-2.0-5 \
+    libevent-2.1-6 \
     libglib2.0-0 \
     libssl1.1 \
     libmagic1 \
     liblua5.1-0 \
     libluajit-5.1-2 \
     libsqlite3-0 \
-    libhyperscan4 \
-    libjemalloc1 \
+    libhyperscan5 \
+    libjemalloc2 \
     sqlite3 \
     openssl \
     ca-certificates \
