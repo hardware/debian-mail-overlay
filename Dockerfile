@@ -56,6 +56,7 @@ RUN NB_CORES=${BUILD_CORES-$(getconf _NPROCESSORS_CONF)} \
     ca-certificates \
     gnupg \
     dirmngr \
+    netcat \
  && cd /tmp \
  && SKALIBS_TARBALL="skalibs-${SKALIBS_VER}.tar.gz" \
  && wget -q https://skarnet.org/software/skalibs/${SKALIBS_TARBALL} \
